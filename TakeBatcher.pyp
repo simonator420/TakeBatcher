@@ -39,7 +39,6 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
 
         return True
 
-
 class TakeBatcherPlugin(c4d.plugins.CommandData):
 
     def __init__(self):
