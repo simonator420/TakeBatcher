@@ -1,0 +1,15 @@
+STRINGTABLE TakeBatcher
+{
+    GROUP_LINE_1    ""
+    STATIC_TEXT_1   "General resource path"
+    EDIT_TEXT_1     ""
+    BUTTON_1        "..."
+    GROUP_LINE_2    ""
+    STATIC_TEXT_2   "Relative resource path"
+    EDIT_TEXT_2     ""
+    BUTTON_2        "..."
+    GROUP_CHECKBOX  ""
+    CHECKBOX_1      "Corona render multipass"
+    STATIC_TEXT_3   ""
+    BUTTON_3        "Create takes for selected materials"
+}
