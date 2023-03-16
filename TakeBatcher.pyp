@@ -12,30 +12,32 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
       self.materials = [] 
 
     # vytvoření dialogového okna
+    # tenhle soubor prepisuje vsechny ostatni, tzn. ze napr nazvy v tomto souboru budou k zobrazeni v pluginu
     def CreateLayout(self):
         self.SetTitle("Take Batcher")
         
         # první řádek
-        self.GroupBegin(1000, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT, 2, 1, "")
-        self.AddStaticText(1001, c4d.BFH_LEFT, name = "General resource path")
-        self.AddEditText(1002, c4d.BFH_SCALEFIT, initw= 200)
-        self.AddButton(1003, c4d.BFH_SCALEFIT, name = "...")
+        self.GroupBegin(1000, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT, 1, 3, "")
+        self.AddStaticText(1001, c4d.BFH_LEFT, name = "General resource pathMONCICAK")
+        self.AddEditText(1002, c4d.BFH_LEFT, initw= 200)
+        # self.AddEditText(1002, c4d.BFH_SCALEFIT)
+        self.AddButton(1003, c4d.BFH_LEFT, name = "...")
         self.GroupEnd()
 
         # druhý řádek
         self.GroupBegin(1004, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT,2,1,"")
         self.AddStaticText(1005,c4d.BFH_LEFT, name = "Relative resource path")
         self.AddEditText(1006,  c4d.BFH_SCALEFIT, initw=200)
-        self.AddButton(1007, c4d.BFH_LEFT, name="...")
+        self.AddButton(1007, c4d.BFH_SCALEFIT, name="...")
         self.GroupEnd()
 
         # třetí řádek
-        self.GroupBegin(1008, c4d.BFH_SCALEFIT | c4d.BFV_TOP, 1, 1,"")
-        self.AddCheckbox(1009, c4d.BFH_BFH_LEFT, name = "Corona render multipass")
+        self.GroupBegin(1008, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT,2,1,"")
+        self.AddCheckbox(1009, c4d.BFH_SCALEFIT, name = "Corona render multipass")
+        self.AddButton(1010, c4d.BFH_SCALEFIT | c4d.BFV_CENTER, name = "Create takes for selected materials")
         self.GroupEnd()
 
         # čtvrtý řádek
-        self.AddButton(1010, c4d.BFH_SCALEFIT | c4d.BFV_CENTER, name = "Create takes for selected materials")
 
         return True
     
@@ -63,7 +65,7 @@ class TakeBatcherPlugin(c4d.plugins.CommandData):
 
     def Execute(self, doc):
         dialog = TakeBatcherDialog()
-        dialog.Open(c4d.DLG_TYPE_MODAL, defaultw= 400, defaulth=150)
+        dialog.Open(c4d.DLG_TYPE_MODAL, defaultw= 450, defaulth=150)
         return True
 
 if __name__ == '__main__':
