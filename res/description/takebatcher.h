@@ -1,10 +1,6 @@
-// definice ID prvků uživatelského rozhraní
-#ifndef _TAKE_BATCHER_DIALOG_H_
-#define _TAKE_BATCHER_DIALOG_H_
+#pragma once
 
-// výčtový typ (wtf knows what that means)
-enum
-{
+enum {
     DLG_TAKE_BATCHER = 10000,
     GROUP_LINE_1,
     STATIC_TEXT_1,
@@ -18,6 +14,6 @@ enum
     CHECKBOX_1,
     STATIC_TEXT_3,
     BUTTON_3,
-};
 
-#endif //_TAKE_BATCHER_DIALOG_H_
+
+};

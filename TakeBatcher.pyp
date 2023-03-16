@@ -1,9 +1,9 @@
 import c4d
-from c4d import gui, PLUGINFLAG_COMMAND_OPTION_DIALOG
+from c4d import gui, PLUGINFLAG_COMMAND_OPTION_DIALOG, PLUGINFLAG_HIDEPLUGINMENU
 from c4d.gui import GeDialog
 
-PLUGIN_ID = 1060678
-PLUGIN_GROUP_ID = c4d.plugins.MENUPRIORITY_PYTHON_PLUGINS_START + 1
+PLUGIN_ID = 1060707
+# PLUGIN_GROUP_ID = c4d.plugins.MENUPRIORITY_PYTHON_PLUGINS_START + 1
 
 class TakeBatcherDialog(c4d.gui.GeDialog):
     
@@ -38,6 +38,23 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
         self.AddButton(1010, c4d.BFH_SCALEFIT | c4d.BFV_CENTER, name = "Create takes for selected materials")
 
         return True
+    
+    def Command(self, id, msg):
+        if id == 1003:
+            print("KLIK KLIK KLIK")
+        elif id  == 1007:
+            print("NECUM")
+        elif id == 1010:
+            print("KLIKACKA")
+        return True
+    
+    def CoreMessage(self, id, msg):
+        if id == c4d.EVMSG_CHANGE:
+            if msg.GetId() == 1002:
+                print("EDITITITIT")
+            elif msg.GetId() == 1006:
+                print("Resource editeretet")
+        return True
 
 class TakeBatcherPlugin(c4d.plugins.CommandData):
 
@@ -53,7 +70,7 @@ if __name__ == '__main__':
     # Register the plugin with a unique ID and group ID
     c4d.plugins.RegisterCommandPlugin(
         id=PLUGIN_ID,
-        str='TakeBatcher',
+        str='Take Batcher',
         info= PLUGINFLAG_COMMAND_OPTION_DIALOG,
         icon=None,
         help='HELP',
