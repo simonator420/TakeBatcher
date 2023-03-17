@@ -50,7 +50,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
         return True
     
     def Command(self, id, msg):
-
+        doc = c4d.documents.GetActiveDocument()
         if id == 1003:
             generalPath = c4d.storage.LoadDialog(c4d.FILESELECTTYPE_ANYTHING, "Select directory", c4d.FILESELECT_DIRECTORY)
             if generalPath:
@@ -70,6 +70,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
             relativePath = self.GetString(1006)
             if not generalPath and not relativePath:
                 c4d.gui.MessageDialog("Choose either general or output path.", type=c4d.GEMB_ICONEXCLAMATION)
+            #TODO RENDER SETTINGS PRO OBA
 
         return True
 
