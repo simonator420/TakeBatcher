@@ -37,20 +37,20 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
         self.AddCheckbox(1010, c4d.BFH_LEFT,initw=10, inith=10, name = "")
         self.GroupEnd()
 
+        # čtvrtý řádek
         self.GroupBegin(1011, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT, 1, 1, "")
         self.AddButton(1012, c4d.BFH_LEFT,initw=300, name = "Create takes for selected materials")
         self.GroupEnd()
-
-        # čtvrtý řádek
 
         return True
     
     def InitValues(self):
         self.Enable(1010, False)
+
         return True
     
     def Command(self, id, msg):
-        doc = c4d.documents.GetActiveDocument()
+        # doc = c4d.documents.GetActiveDocument()
         if id == 1003:
             generalPath = c4d.storage.LoadDialog(c4d.FILESELECTTYPE_ANYTHING, "Select directory", c4d.FILESELECT_DIRECTORY)
             if generalPath:
@@ -80,6 +80,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                 print("EDITITITIT")
             elif msg.GetId() == 1006:
                 print("Resource editeretet")
+
         return True
 
 class TakeBatcherPlugin(c4d.plugins.CommandData):
@@ -90,6 +91,7 @@ class TakeBatcherPlugin(c4d.plugins.CommandData):
     def Execute(self, doc):
         dialog = TakeBatcherDialog()
         dialog.Open(c4d.DLG_TYPE_MODAL, defaultw= 450, defaulth=150)
+        
         return True
 
 if __name__ == '__main__':
