@@ -10,9 +10,9 @@ enum {
     STATIC_TEXT_2,
     EDIT_TEXT_2,
     BUTTON_2,
-    GROUP_CHECKBOX,
+    GROUP_LINE_3,
     CHECKBOX_1,
-    STATIC_TEXT_3,
+    // STATIC_TEXT_3,
     BUTTON_3,
 
 

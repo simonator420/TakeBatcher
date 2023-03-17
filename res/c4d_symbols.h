@@ -14,9 +14,10 @@ enum
     STATIC_TEXT_2,
     EDIT_TEXT_2,
     BUTTON_2,
-    GROUP_CHECKBOX,
-    CHECKBOX_1,
+    GROUP_LINE_3,
     STATIC_TEXT_3,
+    CHECKBOX_1,
+    GROUP_LINE_4,
     BUTTON_3,
 };
 

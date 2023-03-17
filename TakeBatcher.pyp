@@ -18,22 +18,26 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
         
         # první řádek
         self.GroupBegin(1000, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT, 3, 1, "")
-        self.AddStaticText(1001, c4d.BFH_LEFT, name = "General resource path")
+        self.AddStaticText(1001, c4d.BFH_LEFT, name = "General output path")
         self.AddEditText(1002, c4d.BFH_SCALEFIT, initw=400)
         self.AddButton(1003, c4d.BFH_SCALEFIT, name="...")
         self.GroupEnd()
 
         # druhý řádek
         self.GroupBegin(1004, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT,3,1,"")
-        self.AddStaticText(1005,c4d.BFH_LEFT, name = "Relative resource path")
+        self.AddStaticText(1005,c4d.BFH_LEFT, name = "Relative output path")
         self.AddEditText(1006,  c4d.BFH_SCALEFIT, initw=400)
         self.AddButton(1007, c4d.BFH_SCALEFIT, name="...")
         self.GroupEnd()
 
         # třetí řádek
-        self.GroupBegin(1008, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT,2,2,"")
-        self.AddCheckbox(1009, c4d.BFH_SCALEFIT, name = "Corona render multipass")
-        self.AddButton(1010, c4d.BFH_SCALEFIT | c4d.BFV_CENTER, name = "Create takes for selected materials")
+        self.GroupBegin(1008, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT, 2, 1, "")
+        self.AddStaticText(1009, c4d.BFH_LEFT, name = "Save Corona multi-pass")
+        self.AddCheckbox(1010, c4d.BFH_LEFT,initw=10, inith=10, name = "")
+        self.GroupEnd()
+
+        self.GroupBegin(1011, c4d.BFH_SCALEFIT | c4d.BFV_SCALEFIT, 1, 1, "")
+        self.AddButton(1012, c4d.BFH_LEFT,initw=300, name = "Create takes for selected materials")
         self.GroupEnd()
 
         # čtvrtý řádek
@@ -47,6 +51,9 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
             print("NECUM")
         elif id == 1010:
             print("KLIKACKA")
+        elif id == 1009:
+            checked = self.GetBool
+            print("Checkbox value: ", checked)
         return True
     
     def CoreMessage(self, id, msg):
