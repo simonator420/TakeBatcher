@@ -23,10 +23,15 @@ CONTAINER TakeBatcherDialog
 		
 		GroupBegin {ID=1008; ALIGN_LEFT; LAYOUT_FILL_TOP; COLUMNS=1;}
 		{
-			Checkbox {ID=1009; ALIGN_LEFT; NAME="Corona render multipass";}
+			StaticText {ID=1009; ALIGN_LEFT; INITW=200; }
+			Checkbox {ID=1010; ALIGN_LEFT; NAME="";}
 		}
 		GroupEnd;
 		
-		Button {ID=1010; ALIGN_CENTER_H; LAYOUT_FILL_X|LAYOUT_FILL_BOTTOM; NAME="Create takes for selected materials"; }
+		GroupBegin {ID=1011; ALIGN_LEFT; LAYOUT_FILL_TOP; COLUMNS=1;}
+			{
+			Button {ID=1012; ALIGN_CENTER_H; LAYOUT_FILL_X|LAYOUT_FILL_BOTTOM; NAME="Create takes for selected materials"; }
+			}
+		GroupEnd;
 	}
 }
