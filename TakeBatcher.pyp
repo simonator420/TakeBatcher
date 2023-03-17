@@ -1,6 +1,6 @@
 import c4d
 import os.path
-from c4d import gui, PLUGINFLAG_COMMAND_OPTION_DIALOG, PLUGINFLAG_HIDEPLUGINMENU, bitmaps, FILESELECTTYPE_ANYTHING
+from c4d import gui, PLUGINFLAG_COMMAND_OPTION_DIALOG, PLUGINFLAG_HIDEPLUGINMENU, bitmaps, FILESELECTTYPE_ANYTHING, PH_2D_TRACK_USER_trackWindowSizeActive_STR_DEPRECATED, documents
 from c4d.gui import GeDialog
 
 PLUGIN_ID = 1060707
@@ -45,26 +45,34 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
 
         return True
     
+    def InitValues(self):
+        self.Enable(1010, False)
+        return True
+    
     def Command(self, id, msg):
+
         if id == 1003:
             generalPath = c4d.storage.LoadDialog(c4d.FILESELECTTYPE_ANYTHING, "Select directory", c4d.FILESELECT_DIRECTORY)
             if generalPath:
                 self.SetString(1002, generalPath)
                 self.Enable(1007, False)
                 self.Enable(1006, False)
+                self.Enable(1010, True)
         elif id  == 1007:
             relativePath = c4d.storage.LoadDialog(c4d.FILESELECTTYPE_ANYTHING, "Select directory", c4d.FILESELECT_DIRECTORY)
             if relativePath:
                 self.SetString(1006, relativePath)
                 self.Enable(1003, False)
                 self.Enable(1002, False)
-        elif id == 1010:
-            print("KLIKACKA")
-        elif id == 1009:
-            checked = self.GetBool
-            print("Checkbox value: ", checked)
+                self.Enable(1010, True)
+        elif id == 1012:
+            generalPath = self.GetString(1002)
+            relativePath = self.GetString(1006)
+            if not generalPath and not relativePath:
+                c4d.gui.MessageDialog("Choose either general or output path.", type=c4d.GEMB_ICONEXCLAMATION)
+
         return True
-    
+
     def CoreMessage(self, id, msg):
         if id == c4d.EVMSG_CHANGE:
             if msg.GetId() == 1002:
