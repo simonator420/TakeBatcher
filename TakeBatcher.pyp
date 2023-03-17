@@ -1,5 +1,6 @@
 import c4d
-from c4d import gui, PLUGINFLAG_COMMAND_OPTION_DIALOG, PLUGINFLAG_HIDEPLUGINMENU
+import os.path
+from c4d import gui, PLUGINFLAG_COMMAND_OPTION_DIALOG, PLUGINFLAG_HIDEPLUGINMENU, bitmaps, FILESELECTTYPE_ANYTHING
 from c4d.gui import GeDialog
 
 PLUGIN_ID = 1060707
@@ -46,9 +47,17 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
     
     def Command(self, id, msg):
         if id == 1003:
-            print("KLIK KLIK KLIK")
+            generalPath = c4d.storage.LoadDialog(c4d.FILESELECTTYPE_ANYTHING, "Select directory", c4d.FILESELECT_DIRECTORY)
+            if generalPath:
+                self.SetString(1002, generalPath)
+                self.Enable(1007, False)
+                self.Enable(1006, False)
         elif id  == 1007:
-            print("NECUM")
+            relativePath = c4d.storage.LoadDialog(c4d.FILESELECTTYPE_ANYTHING, "Select directory", c4d.FILESELECT_DIRECTORY)
+            if relativePath:
+                self.SetString(1006, relativePath)
+                self.Enable(1003, False)
+                self.Enable(1002, False)
         elif id == 1010:
             print("KLIKACKA")
         elif id == 1009:
@@ -75,12 +84,16 @@ class TakeBatcherPlugin(c4d.plugins.CommandData):
         return True
 
 if __name__ == '__main__':
-    # Register the plugin with a unique ID and group ID
+
+    icon_absolute_path = os.path.join(os.path.dirname(__file__), "res", "images", "ikonka.png")
+    plugin_icon = bitmaps.BaseBitmap()
+    plugin_icon.InitWith(icon_absolute_path)
+
     c4d.plugins.RegisterCommandPlugin(
         id=PLUGIN_ID,
         str='Take Batcher',
         info= PLUGINFLAG_COMMAND_OPTION_DIALOG,
-        icon=None,
+        icon=plugin_icon,
         help='HELP',
         dat=TakeBatcherPlugin(),
     )
