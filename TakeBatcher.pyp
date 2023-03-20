@@ -79,6 +79,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     renderData[c4d.RDATA_PATH] = generalPath + "\\" + material.GetName()
                     renderData[c4d.RDATA_SAVEIMAGE] = True
                     if self.GetBool(1010):
+                        #TODO SET CORONA ENGINE
                         renderData[c4d.RDATA_MULTIPASS_FILENAME] = generalPath + "\\" + material.GetName()
                         renderData[c4d.RDATA_MULTIPASS_SAVEIMAGE] = True
                         renderData[c4d.RDATA_MULTIPASS_ENABLE] = True
