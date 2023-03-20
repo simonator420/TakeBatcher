@@ -65,10 +65,8 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                 self.Enable(1003, False)
                 self.Enable(1002, False)
                 self.Enable(1010, True)
-        elif id == 1010:
-            c4d.RDATA_MULTIPASS_ENABLE(True)
         elif id == 1012:
-            materials = doc.GetActiveMaterials()            
+            materials = doc.GetActiveMaterials()
             generalPath = self.GetString(1002)
             relativePath = self.GetString(1006)
             if not generalPath and not relativePath:
@@ -78,8 +76,12 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                 for material in materials:
                     renderData = c4d.documents.RenderData()
                     renderData.SetName(material.GetName())
-                    renderData[c4d.RDATA_PATH] = generalPath
-                    renderData[c4d.RDATA_SAVEIMAGE] = True           
+                    renderData[c4d.RDATA_PATH] = generalPath + "\\" + material.GetName()
+                    renderData[c4d.RDATA_SAVEIMAGE] = True
+                    if self.GetBool(1010):
+                        renderData[c4d.RDATA_MULTIPASS_FILENAME] = generalPath + "\\" + material.GetName()
+                        renderData[c4d.RDATA_MULTIPASS_SAVEIMAGE] = True
+                        renderData[c4d.RDATA_MULTIPASS_ENABLE] = True
                     doc.InsertRenderData(renderData)
 
             # pokud se vybere Relative output path
