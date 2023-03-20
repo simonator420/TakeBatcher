@@ -73,13 +73,24 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
             relativePath = self.GetString(1006)
             if not generalPath and not relativePath:
                 c4d.gui.MessageDialog("Choose either general or output path.", type=c4d.GEMB_ICONEXCLAMATION)
-            if generalPath or relativePath:
+            # pokud se vybere General output path
+            if generalPath:
                 for material in materials:
                     renderData = c4d.documents.RenderData()
                     renderData.SetName(material.GetName())
+                    renderData[c4d.RDATA_PATH] = generalPath
+                    renderData[c4d.RDATA_SAVEIMAGE] = True           
+                    doc.InsertRenderData(renderData)
+
+            # pokud se vybere Relative output path
+            elif relativePath:
+                for material in materials:
+                    renderData = c4d.documents.RenderData()
+                    renderData.SetName(material.GetName())
+                    renderData[c4d.RDATA_PATH] = generalPath
+                    renderData[c4d.RDATA_SAVEIMAGE] = True
                     doc.InsertRenderData(renderData)
             self.Close()
-
 
         return True
 
