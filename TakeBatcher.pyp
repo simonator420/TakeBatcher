@@ -79,10 +79,14 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     renderData[c4d.RDATA_PATH] = generalPath + "\\" + material.GetName()
                     renderData[c4d.RDATA_SAVEIMAGE] = True
                     if self.GetBool(1010):
-                        #TODO SET CORONA ENGINE
                         renderData[c4d.RDATA_MULTIPASS_FILENAME] = generalPath + "\\" + material.GetName()
                         renderData[c4d.RDATA_MULTIPASS_SAVEIMAGE] = True
                         renderData[c4d.RDATA_MULTIPASS_ENABLE] = True
+                        renderData[c4d.RDATA_RENDERENGINE] = c4d.RDATA_RENDERENGINE_PHYSICAL
+                    doc.SetActiveRenderData(renderData)
+                    takeData = doc.GetTakeData()                    
+                    take = takeData.AddTake(material.GetName(), None, None)
+                    take.SetRenderData(takeData, renderData)
                     doc.InsertRenderData(renderData)
 
             # pokud se vybere Relative output path
