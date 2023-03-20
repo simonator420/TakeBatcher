@@ -50,7 +50,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
         return True
     
     def Command(self, id, msg):
-        # doc = c4d.documents.GetActiveDocument()
+        doc = c4d.documents.GetActiveDocument()
         if id == 1003:
             generalPath = c4d.storage.LoadDialog(c4d.FILESELECTTYPE_ANYTHING, "Select directory", c4d.FILESELECT_DIRECTORY)
             if generalPath:
@@ -65,12 +65,21 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                 self.Enable(1003, False)
                 self.Enable(1002, False)
                 self.Enable(1010, True)
+        elif id == 1010:
+            c4d.RDATA_MULTIPASS_ENABLE(True)
         elif id == 1012:
+            materials = doc.GetActiveMaterials()            
             generalPath = self.GetString(1002)
             relativePath = self.GetString(1006)
             if not generalPath and not relativePath:
                 c4d.gui.MessageDialog("Choose either general or output path.", type=c4d.GEMB_ICONEXCLAMATION)
-            #TODO RENDER SETTINGS PRO OBA
+            if generalPath or relativePath:
+                for material in materials:
+                    renderData = c4d.documents.RenderData()
+                    renderData.SetName(material.GetName())
+                    doc.InsertRenderData(renderData)
+            self.Close()
+
 
         return True
 
