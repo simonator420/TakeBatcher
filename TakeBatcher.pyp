@@ -95,15 +95,6 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     take.SetRenderData(takeData, renderData)
                     doc.InsertRenderData(renderData)
 
-            # pokud se vybere Relative output path
-            # elif relativePath:
-            #     for material in materials:
-            #         renderData = c4d.documents.RenderData()
-            #         renderData.SetName(material.GetName())
-            #         renderData[c4d.RDATA_PATH] = generalPath
-            #         renderData[c4d.RDATA_SAVEIMAGE] = True
-            #         doc.InsertRenderData(renderData)
-
             elif relativePath:
                 naming = c4d.gui.InputDialog("Choose a naming", "Naming")
                 subfolders = []
@@ -117,7 +108,16 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                         renderDataRP.SetName(os.path.basename(subfolder))
                         renderDataRP[c4d.RDATA_PATH] = previewFolder + "\\" + naming
                         renderDataRP[c4d.RDATA_SAVEIMAGE] = True
-                        
+                        if self.GetBool(1010):
+                            renderDataRP[c4d.RDATA_MULTIPASS_FILENAME] = previewFolder + "\\" + naming
+                            renderDataRP[c4d.RDATA_MULTIPASS_SAVEIMAGE] = True
+                            renderDataRP[c4d.RDATA_MULTIPASS_ENABLE] = True
+                            corona_render_id = None
+                            for renderer in c4d.plugins.FilterPluginList(c4d.PLUGINTYPE_ANY, True):
+                                if "Corona" in renderer.GetName():
+                                    corona_render_id = renderer.GetID()
+                                    break
+                            renderDataRP[c4d.RDATA_RENDERENGINE] = corona_render_id
                         doc.InsertRenderData(renderDataRP)
             self.Close()
 
