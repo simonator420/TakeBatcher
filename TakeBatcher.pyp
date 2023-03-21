@@ -78,12 +78,17 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     renderData.SetName(material.GetName())
                     renderData[c4d.RDATA_PATH] = generalPath + "\\" + material.GetName()
                     renderData[c4d.RDATA_SAVEIMAGE] = True
+                    doc.SetActiveRenderData(renderData)
                     if self.GetBool(1010):
                         renderData[c4d.RDATA_MULTIPASS_FILENAME] = generalPath + "\\" + material.GetName()
                         renderData[c4d.RDATA_MULTIPASS_SAVEIMAGE] = True
                         renderData[c4d.RDATA_MULTIPASS_ENABLE] = True
-                        renderData[c4d.RDATA_RENDERENGINE] = c4d.RDATA_RENDERENGINE_PHYSICAL
-                    doc.SetActiveRenderData(renderData)
+                        corona_render_id = None
+                        for renderer in c4d.plugins.FilterPluginList(c4d.PLUGINTYPE_ANY, True):
+                            if "Corona" in renderer.GetName():
+                                corona_render_id = renderer.GetID()
+                                break
+                        renderData[c4d.RDATA_RENDERENGINE] = corona_render_id
                     takeData = doc.GetTakeData()                    
                     take = takeData.AddTake(material.GetName(), None, None)
                     take.SetRenderData(takeData, renderData)
