@@ -118,6 +118,9 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                                     corona_render_id = renderer.GetID()
                                     break
                             renderDataRP[c4d.RDATA_RENDERENGINE] = corona_render_id
+                        takeDataRP = doc.GetTakeData()
+                        takeRP = takeDataRP.AddTake(os.path.basename(subfolder), None, None)
+                        takeRP.SetRenderData(takeDataRP, renderDataRP)
                         doc.InsertRenderData(renderDataRP)
             self.Close()
 
