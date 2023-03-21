@@ -2,6 +2,7 @@ import c4d
 import os.path
 from c4d import gui, PLUGINFLAG_COMMAND_OPTION_DIALOG, PLUGINFLAG_HIDEPLUGINMENU, bitmaps, FILESELECTTYPE_ANYTHING, PH_2D_TRACK_USER_trackWindowSizeActive_STR_DEPRECATED, documents
 from c4d.gui import GeDialog
+import os
 
 PLUGIN_ID = 1060707
 # PLUGIN_GROUP_ID = c4d.plugins.MENUPRIORITY_PYTHON_PLUGINS_START + 1
@@ -95,13 +96,29 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     doc.InsertRenderData(renderData)
 
             # pokud se vybere Relative output path
+            # elif relativePath:
+            #     for material in materials:
+            #         renderData = c4d.documents.RenderData()
+            #         renderData.SetName(material.GetName())
+            #         renderData[c4d.RDATA_PATH] = generalPath
+            #         renderData[c4d.RDATA_SAVEIMAGE] = True
+            #         doc.InsertRenderData(renderData)
+
             elif relativePath:
-                for material in materials:
-                    renderData = c4d.documents.RenderData()
-                    renderData.SetName(material.GetName())
-                    renderData[c4d.RDATA_PATH] = generalPath
-                    renderData[c4d.RDATA_SAVEIMAGE] = True
-                    doc.InsertRenderData(renderData)
+                naming = c4d.gui.InputDialog("Choose a naming", "Naming")
+                subfolders = []
+                for folderName in os.listdir(relativePath):
+                    if folderName.startswith(os.path.basename(relativePath)):
+                        subfolders.append(os.path.join(relativePath, folderName))
+                for subfolder in subfolders:
+                    previewFolder = os.path.join(subfolder,"PREVIEW")
+                    if os.path.isdir(previewFolder):
+                        renderDataRP = c4d.documents.RenderData()
+                        renderDataRP.SetName(os.path.basename(subfolder))
+                        renderDataRP[c4d.RDATA_PATH] = previewFolder + "\\" + naming
+                        renderDataRP[c4d.RDATA_SAVEIMAGE] = True
+                        
+                        doc.InsertRenderData(renderDataRP)
             self.Close()
 
         return True
