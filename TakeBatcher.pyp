@@ -78,7 +78,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     renderData.SetName(material.GetName())
                     renderData[c4d.RDATA_PATH] = generalPath + "\\" + material.GetName()
                     renderData[c4d.RDATA_SAVEIMAGE] = True
-                    doc.SetActiveRenderData(renderData)
+                    # doc.SetActiveRenderData(renderData)
                     if self.GetBool(1010):
                         renderData[c4d.RDATA_MULTIPASS_FILENAME] = generalPath + "\\" + material.GetName()
                         renderData[c4d.RDATA_MULTIPASS_SAVEIMAGE] = True
