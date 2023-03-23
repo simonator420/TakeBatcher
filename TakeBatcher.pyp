@@ -102,7 +102,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     take = takeData.AddTake(material.GetName(), None, None)
                     take.SetRenderData(takeData, renderData)
                     doc.InsertRenderData(renderData)
-                    
+
             elif relativePath:
                 materials = doc.GetActiveMaterials()
                 subfolders = []
@@ -137,12 +137,12 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                                     corona_render_id = renderer.GetID()
                                     break
                             renderDataRP[c4d.RDATA_RENDERENGINE] = corona_render_id
+                        doc.InsertRenderData(renderDataRP)
                         # vytvoreni taku
                         takeDataRP = doc.GetTakeData()
                         # vymazani napr "_F03" koncovky u slozek
                         takeRP = takeDataRP.AddTake(os.path.basename(subfolder[:-4]), None, None)
                         takeRP.SetRenderData(takeDataRP, renderDataRP)
-                        doc.InsertRenderData(renderDataRP)
             self.Close()
 
         return True
