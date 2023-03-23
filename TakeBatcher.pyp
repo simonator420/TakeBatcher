@@ -5,7 +5,6 @@ from c4d.gui import GeDialog
 import os
 
 PLUGIN_ID = 1060707
-# PLUGIN_GROUP_ID = c4d.plugins.MENUPRIORITY_PYTHON_PLUGINS_START + 1
 
 class TakeBatcherDialog(c4d.gui.GeDialog):
     
@@ -79,7 +78,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
             if generalPath:
                 # provadeni akce u aktivnich materialu
                 if not materials:
-                    c4d.gui.MessageDialog("You have not selected any materials", type=c4d.GEMB_ICONEXCLAMATION)
+                    c4d.gui.MessageDialog("You have not selected any materials.", type=c4d.GEMB_ICONEXCLAMATION)
                     return
                 for material in materials:
                     renderData = c4d.documents.RenderData()
@@ -103,15 +102,14 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     take = takeData.AddTake(material.GetName(), None, None)
                     take.SetRenderData(takeData, renderData)
                     doc.InsertRenderData(renderData)
-
-
+                    
             elif relativePath:
-                naming = c4d.gui.InputDialog("Choose a naming", "Naming")
                 materials = doc.GetActiveMaterials()
                 subfolders = []
                 if not materials:
-                    c4d.gui.MessageDialog("You have not selected any materials", type=c4d.GEMB_ICONEXCLAMATION)
+                    c4d.gui.MessageDialog("You have not selected any materials.", type=c4d.GEMB_ICONEXCLAMATION)
                     return
+                naming = c4d.gui.InputDialog("Choose a naming.", "Naming")
                 # vyhledani slozek u kterych se bude akce provadet
                 for material in materials:
                     for folderName in os.listdir(relativePath):
