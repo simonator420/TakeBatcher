@@ -97,10 +97,12 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
 
             elif relativePath:
                 naming = c4d.gui.InputDialog("Choose a naming", "Naming")
+                materials = doc.GetActiveMaterials()
                 subfolders = []
-                for folderName in os.listdir(relativePath):
-                    if folderName.startswith(os.path.basename(relativePath)):
-                        subfolders.append(os.path.join(relativePath, folderName))
+                for material in materials:
+                    for folderName in os.listdir(relativePath):
+                        if folderName.startswith(material.GetName()):
+                            subfolders.append(os.path.join(relativePath, folderName))
                 for subfolder in subfolders:
                     previewFolder = os.path.join(subfolder,"PREVIEW")
                     if os.path.isdir(previewFolder):
