@@ -74,11 +74,13 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                 c4d.gui.MessageDialog("Choose either general or output path.", type=c4d.GEMB_ICONEXCLAMATION)
             # pokud se vybere General output path
             if generalPath:
+                # provadeni akce u aktivnich materialu
                 for material in materials:
                     renderData = c4d.documents.RenderData()
                     renderData.SetName(material.GetName())
                     renderData[c4d.RDATA_PATH] = generalPath + "\\" + material.GetName()
                     renderData[c4d.RDATA_SAVEIMAGE] = True
+                    renderData[c4d.RDATA_FORMAT] = c4d.FILTER_PNG
                     # doc.SetActiveRenderData(renderData)
                     if self.GetBool(1010):
                         renderData[c4d.RDATA_MULTIPASS_FILENAME] = generalPath + "\\" + material.GetName()
@@ -90,6 +92,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                                 corona_render_id = renderer.GetID()
                                 break
                         renderData[c4d.RDATA_RENDERENGINE] = corona_render_id
+                    # vytvoreni taku
                     takeData = doc.GetTakeData()                    
                     take = takeData.AddTake(material.GetName(), None, None)
                     take.SetRenderData(takeData, renderData)
@@ -99,18 +102,23 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                 naming = c4d.gui.InputDialog("Choose a naming", "Naming")
                 materials = doc.GetActiveMaterials()
                 subfolders = []
+                # vyhledani slozek u kterych se bude akce provadet
                 for material in materials:
                     for folderName in os.listdir(relativePath):
                         if folderName.startswith(material.GetName()):
                             subfolders.append(os.path.join(relativePath, folderName))
+                # provadeni akce u vybranych slozek
                 for subfolder in subfolders:
                     previewFolder = os.path.join(subfolder,"PREVIEW")
                     if os.path.isdir(previewFolder):
+                        # ovladani render settings
                         renderDataRP = c4d.documents.RenderData()
                         # vymazani napr "_F03" koncovky u slozek
                         renderDataRP.SetName(os.path.basename(subfolder[:-4]))
                         renderDataRP[c4d.RDATA_PATH] = previewFolder + "\\" + naming
                         renderDataRP[c4d.RDATA_SAVEIMAGE] = True
+                        renderDataRP[c4d.RDATA_FORMAT] = c4d.FILTER_PNG
+                        # render settings pokud je checkbox zaskrtnuty
                         if self.GetBool(1010):
                             renderDataRP[c4d.RDATA_MULTIPASS_FILENAME] = previewFolder + "\\" + naming
                             renderDataRP[c4d.RDATA_MULTIPASS_SAVEIMAGE] = True
@@ -121,6 +129,7 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                                     corona_render_id = renderer.GetID()
                                     break
                             renderDataRP[c4d.RDATA_RENDERENGINE] = corona_render_id
+                        # vytvoreni taku
                         takeDataRP = doc.GetTakeData()
                         # vymazani napr "_F03" koncovky u slozek
                         takeRP = takeDataRP.AddTake(os.path.basename(subfolder[:-4]), None, None)
