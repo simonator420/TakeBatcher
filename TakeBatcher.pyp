@@ -107,7 +107,8 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     previewFolder = os.path.join(subfolder,"PREVIEW")
                     if os.path.isdir(previewFolder):
                         renderDataRP = c4d.documents.RenderData()
-                        renderDataRP.SetName(os.path.basename(subfolder))
+                        # vymazani napr "_F03" koncovky u slozek
+                        renderDataRP.SetName(os.path.basename(subfolder[:-4]))
                         renderDataRP[c4d.RDATA_PATH] = previewFolder + "\\" + naming
                         renderDataRP[c4d.RDATA_SAVEIMAGE] = True
                         if self.GetBool(1010):
@@ -121,7 +122,8 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                                     break
                             renderDataRP[c4d.RDATA_RENDERENGINE] = corona_render_id
                         takeDataRP = doc.GetTakeData()
-                        takeRP = takeDataRP.AddTake(os.path.basename(subfolder), None, None)
+                        # vymazani napr "_F03" koncovky u slozek
+                        takeRP = takeDataRP.AddTake(os.path.basename(subfolder[:-4]), None, None)
                         takeRP.SetRenderData(takeDataRP, renderDataRP)
                         doc.InsertRenderData(renderDataRP)
             self.Close()
