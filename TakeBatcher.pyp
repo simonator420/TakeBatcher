@@ -58,12 +58,14 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                 self.SetString(1002, generalPath)
                 self.Enable(1007, False)
                 self.Enable(1006, False)
+                self.Enable(1005, False)
                 self.Enable(1010, True)
         elif id  == 1007:
             relativePath = c4d.storage.LoadDialog(c4d.FILESELECTTYPE_ANYTHING, "Select directory", c4d.FILESELECT_DIRECTORY)
             if relativePath:
                 self.SetString(1006, relativePath)
                 self.Enable(1003, False)
+                self.Enable(1001, False)
                 self.Enable(1002, False)
                 self.Enable(1010, True)
         elif id == 1012:
@@ -72,9 +74,13 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
             relativePath = self.GetString(1006)
             if not generalPath and not relativePath:
                 c4d.gui.MessageDialog("Choose either general or output path.", type=c4d.GEMB_ICONEXCLAMATION)
+                return
             # pokud se vybere General output path
             if generalPath:
                 # provadeni akce u aktivnich materialu
+                if not materials:
+                    c4d.gui.MessageDialog("You have not selected any materials", type=c4d.GEMB_ICONEXCLAMATION)
+                    return
                 for material in materials:
                     renderData = c4d.documents.RenderData()
                     renderData.SetName(material.GetName())
@@ -98,10 +104,14 @@ class TakeBatcherDialog(c4d.gui.GeDialog):
                     take.SetRenderData(takeData, renderData)
                     doc.InsertRenderData(renderData)
 
+
             elif relativePath:
                 naming = c4d.gui.InputDialog("Choose a naming", "Naming")
                 materials = doc.GetActiveMaterials()
                 subfolders = []
+                if not materials:
+                    c4d.gui.MessageDialog("You have not selected any materials", type=c4d.GEMB_ICONEXCLAMATION)
+                    return
                 # vyhledani slozek u kterych se bude akce provadet
                 for material in materials:
                     for folderName in os.listdir(relativePath):
